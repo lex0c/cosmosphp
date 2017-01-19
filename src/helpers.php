@@ -2,7 +2,7 @@
 
 use Cosmos\Container\Container;
 
-if(!function_exists('app')) {
+if(!function_exists('cosmos')) {
     /**
      * Get the container instance.
      *
@@ -12,7 +12,7 @@ if(!function_exists('app')) {
      *
      * @return mixed \DI\Container
      */
-    function app(string $namespace = null, array $params = [], bool $singleton = true)
+    function cosmos(string $namespace = null, array $params = [], bool $singleton = true)
     {
         if($namespace != null) {
             return Container::make($namespace, $params, $singleton);
@@ -25,16 +25,16 @@ if(!function_exists('app')) {
 
 if(!function_exists('dd')) {
     /**
-     * Dump the passed variables and end the script.
+     * Displays debug about the data and ends the script.
      *
-     * @param  mixed $data
-     * @param  bool  $superDump
+     * @param mixed $data
+     * @param bool  $superDump
      *
      * @return void
      */
     function dd($data, bool $superDump = true):void
     {
-        $dump = app('Cosmos\Debug\Debugger');
+        $dump = cosmos('Cosmos\Debug\Debugger');
         $dump->varDump($data, $superDump);
         die(1);
     }

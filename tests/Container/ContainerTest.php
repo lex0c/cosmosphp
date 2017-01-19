@@ -13,7 +13,7 @@ class ContainerTest extends TestCase
      */
     public function testIfContainerGetCorrectClassInstance()
     {
-        $userManager = app('Tests\Container\Stupids\UserManager');
+        $userManager = cosmos('Tests\Container\Stupids\UserManager');
         $this->assertTrue($userManager instanceof \Tests\Container\Stupids\UserManager);
     }
 
@@ -23,7 +23,7 @@ class ContainerTest extends TestCase
      */
     public function testGetContainerInstance()
     {
-        $this->assertTrue(app() instanceof \DI\ContainerBuilder);
+        $this->assertTrue(cosmos() instanceof \DI\ContainerBuilder);
     }
 
     /**
@@ -32,7 +32,7 @@ class ContainerTest extends TestCase
      */
     public function testGetMessageByDependencyInjection()
     {
-        $userManager = app('Tests\Container\Stupids\UserManager');
+        $userManager = cosmos('Tests\Container\Stupids\UserManager');
         $return = $userManager->register('leo@castro.com', '');
 
         $this->assertEquals($return, 'leo@castro.com: Hello and welcome!');
@@ -44,7 +44,7 @@ class ContainerTest extends TestCase
      */
     public function testExceptionInIncorrectClassNamespace()
     {
-        app('UserManager');
+        cosmos('UserManager');
     }
 
     /**
@@ -53,7 +53,7 @@ class ContainerTest extends TestCase
      */
     public function testExceptionInIncorrectClassNamespaceOnInjection()
     {
-        app('Tests\Container\Stupids\StupidClass');
+        cosmos('Tests\Container\Stupids\StupidClass');
     }
 
     /**
@@ -62,7 +62,7 @@ class ContainerTest extends TestCase
      */
     public function testSetParamsInClassConstruct()
     {
-        $cp = app('Tests\Container\Stupids\ConstructParams', [
+        $cp = cosmos('Tests\Container\Stupids\ConstructParams', [
             'name' => 'Léo Castro'
         ]);
 
@@ -75,7 +75,7 @@ class ContainerTest extends TestCase
      */
     public function testExceptionInSetIncorrectParamsInClassConstruct()
     {
-        app('Tests\Container\Stupids\ConstructParams', [
+        cosmos('Tests\Container\Stupids\ConstructParams', [
             'username' => 'Léo Castro'
         ]);
     }
