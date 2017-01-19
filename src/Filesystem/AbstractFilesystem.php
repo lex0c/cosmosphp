@@ -11,8 +11,6 @@ use \InvalidArgumentException;
  * @license https://github.com/lleocastro/cosmosphp/blob/master/LICENSE
  * @author Léo Castro <leonardo_carvalho@outlook.com>
  * @package Cosmos\Filesystem
- * @copyright 2016 (MIT License)
- * @version 1.0.0
  */
 abstract class AbstractFilesystem
 {
@@ -33,8 +31,8 @@ abstract class AbstractFilesystem
      */
     protected function pathFormat(string $path):string
     {
-        if(is_dir($path)) {
-            if(substr($path, -1) !== '/') {
+        if (is_dir($path)) {
+            if (substr($path, -1) !== '/') {
                 $path .= '/';
             }
 
@@ -60,7 +58,7 @@ abstract class AbstractFilesystem
         $path = (empty($path)) ? $this->path : $this->pathFormat($path);
         $ch   = $path . str_ireplace('/', DIRECTORY_SEPARATOR, $name);
 
-        if((is_readable($ch)) || (is_dir($ch))) {
+        if ((is_readable($ch)) || (is_dir($ch))) {
             return @chmod($ch, $mode);
         }
 

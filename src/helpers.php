@@ -2,7 +2,7 @@
 
 use Cosmos\Container\Container;
 
-if(!function_exists('cosmos')) {
+if (!function_exists('cosmos')) {
     /**
      * Get the container instance.
      *
@@ -14,7 +14,7 @@ if(!function_exists('cosmos')) {
      */
     function cosmos(string $namespace = null, array $params = [], bool $singleton = true)
     {
-        if($namespace != null) {
+        if ($namespace != null) {
             return Container::make($namespace, $params, $singleton);
         }
 
@@ -23,7 +23,7 @@ if(!function_exists('cosmos')) {
 
 }
 
-if(!function_exists('dd')) {
+if (!function_exists('dd')) {
     /**
      * Displays debug about the data and ends the script.
      *

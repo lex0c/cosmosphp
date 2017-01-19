@@ -5,7 +5,7 @@ namespace Cosmos\Filesystem;
 use \RuntimeException;
 //use \DirectoryIterator;
 //use \RecursiveDirectoryIterator;
-use \Cosmos\Contracts\Filesystem\HandlerInterface;
+use \Cosmos\Contracts\Filesystem\FilesystemInterface;
 use \Cosmos\Contracts\Filesystem\FolderNotFoundException;
 
 /**
@@ -14,10 +14,8 @@ use \Cosmos\Contracts\Filesystem\FolderNotFoundException;
  * @license https://github.com/lleocastro/cosmosphp/blob/master/LICENSE
  * @author Léo Castro <leonardo_carvalho@outlook.com>
  * @package Cosmos\Filesystem
- * @copyright 2016 - 2017 (MIT License)
- * @version 1.0.0
  */
-class FolderHandler extends AbstractFilesystem implements HandlerInterface
+class FolderHandler extends AbstractFilesystem implements FilesystemInterface
 {
     /**
      * Inject a the handler.
@@ -109,6 +107,16 @@ class FolderHandler extends AbstractFilesystem implements HandlerInterface
      */
     public function searchInside(string $name, string $search, string $path):bool
     {}
+
+    /**
+     * Retrieve the path.
+     *
+     * @return string
+     */
+    public function getPath():string
+    {
+        return $this->path;
+    }
 
     /**
      * Set a new path.

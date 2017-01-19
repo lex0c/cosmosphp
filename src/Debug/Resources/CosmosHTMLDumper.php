@@ -4,6 +4,13 @@ namespace Cosmos\Debug\Resources;
 
 use \Symfony\Component\VarDumper\Dumper\HtmlDumper;
 
+/**
+ * Cosmos HTML Dumper
+ * @link https://github.com/lleocastro/cosmosphp/
+ * @license https://github.com/lleocastro/cosmosphp/blob/master/LICENSE
+ * @author Léo Castro <leonardo_carvalho@outlook.com>
+ * @package Cosmos\Debug\Resource
+ */
 class CosmosHTMLDumper extends HtmlDumper
 {
     /**

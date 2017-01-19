@@ -5,6 +5,13 @@ namespace Cosmos\Container;
 use \DI\ContainerBuilder;
 use \DI\Scope;
 
+/**
+ * DI Container
+ * @link https://github.com/lleocastro/cosmosphp/
+ * @license https://github.com/lleocastro/cosmosphp/blob/master/LICENSE
+ * @author Léo Castro <leonardo_carvalho@outlook.com>
+ * @package Cosmos\Container
+ */
 final class Container
 {
     /**
@@ -45,10 +52,11 @@ final class Container
     {
         $builder = self::getInstance();
 
-        if(!$singleton)
+        if (!$singleton) {
             $builder->addDefinitions([
                 $namespace => \DI\object()->scope(Scope::PROTOTYPE())
             ]);
+        }
 
         $build = $builder->build();
         return $build->make($namespace, $params);
@@ -61,7 +69,7 @@ final class Container
      */
     public static function getInstance():ContainerBuilder
     {
-        if(is_null(self::$instance)) {
+        if (is_null(self::$instance)) {
             self::$instance = new ContainerBuilder();
         }
 
