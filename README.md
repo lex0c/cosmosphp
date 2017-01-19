@@ -5,7 +5,7 @@
 
 ## To contributions
 
-Please, see [doc for contribute](https://github.com/lleocastro/cosmosphp/blob/master/docs/CONTRIBUTE.md). Thanks!
+Please, see [doc for contribute](https://github.com/lleocastro/cosmosphp/blob/master/CONTRIBUTE.md). Thanks!
 
 ### License
 
