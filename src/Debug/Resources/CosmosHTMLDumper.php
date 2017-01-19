@@ -1,5 +1,4 @@
 <?php
-
 namespace Cosmos\Debug\Resources;
 
 use \Symfony\Component\VarDumper\Dumper\HtmlDumper;

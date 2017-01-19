@@ -1,9 +1,7 @@
 <?php
-
 namespace Cosmos\Filesystem;
 
-use \RuntimeException;
-use \InvalidArgumentException;
+use Cosmos\Filesystem\Traits\Format;
 
 /**
  * File Handler
@@ -14,33 +12,13 @@ use \InvalidArgumentException;
  */
 abstract class AbstractFilesystem
 {
+    use Format;
+
 	/**
      * Path to the file.
      * @var string
      */
     protected $path = '';
-
-    /**
-     * Format the path file.
-     *
-     * @param string $path
-     *
-     * @return string
-     *
-     * @throws RuntimeException
-     */
-    protected function pathFormat(string $path):string
-    {
-        if (is_dir($path)) {
-            if (substr($path, -1) !== '/') {
-                $path .= '/';
-            }
-
-            return str_ireplace('/', DIRECTORY_SEPARATOR, $path);
-        }
-
-        throw new RuntimeException("This path '{$path}' not a dir or not exists!");
-    }
 
     /**
      * Change permissions for a file or directory.
@@ -51,7 +29,7 @@ abstract class AbstractFilesystem
      *
      * @return bool
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function chmod(string $name, int $mode = 0755, string $path = ''):bool
     {
@@ -62,7 +40,7 @@ abstract class AbstractFilesystem
             return @chmod($ch, $mode);
         }
 
-        throw new InvalidArgumentException('Arguments not valid!');
+        throw new \InvalidArgumentException('Arguments not valid!');
     }
 
 }

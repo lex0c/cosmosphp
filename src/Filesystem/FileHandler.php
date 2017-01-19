@@ -1,11 +1,10 @@
 <?php
-
 namespace Cosmos\Filesystem;
 
 //use \FilesystemIterator;
 //use \Symfony\Component\Finder\Finder;
-use \Cosmos\Contracts\Filesystem\FilesystemInterface;
-use \Cosmos\Contracts\Filesystem\FileNotFoundException;
+use \Cosmos\Filesystem\Interfaces\FilesystemInterface;
+use \Cosmos\Filesystem\Exceptions\FileNotFoundException;
 
 /**
  * File Handler

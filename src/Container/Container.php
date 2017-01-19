@@ -1,5 +1,4 @@
 <?php
-
 namespace Cosmos\Container;
 
 use \DI\ContainerBuilder;

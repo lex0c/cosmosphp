@@ -1,5 +1,4 @@
 <?php
-
 namespace Cosmos\Debug;
 
 use \Symfony\Component\VarDumper\Cloner\VarCloner;

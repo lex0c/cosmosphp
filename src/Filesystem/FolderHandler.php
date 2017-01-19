@@ -1,12 +1,10 @@
 <?php
-
 namespace Cosmos\Filesystem;
 
-use \RuntimeException;
 //use \DirectoryIterator;
 //use \RecursiveDirectoryIterator;
-use \Cosmos\Contracts\Filesystem\FilesystemInterface;
-use \Cosmos\Contracts\Filesystem\FolderNotFoundException;
+use \Cosmos\Filesystem\Interfaces\FilesystemInterface;
+use \Cosmos\Filesystem\Exceptions\FolderNotFoundException;
 
 /**
  * Folder Handler
@@ -41,7 +39,7 @@ class FolderHandler extends AbstractFilesystem implements FilesystemInterface
      * @param bool $force
      * @return bool
      * 
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function create(string $name, string $path, bool $force):bool
     {}
@@ -63,7 +61,7 @@ class FolderHandler extends AbstractFilesystem implements FilesystemInterface
      * @param string $path
      * @return bool
      * 
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function delete(string $name, string $path):bool
     {}
@@ -76,7 +74,7 @@ class FolderHandler extends AbstractFilesystem implements FilesystemInterface
      * @param string $path
      * @return bool
      * 
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function copy(string $name, string $to, string $path):bool
     {}
@@ -89,7 +87,7 @@ class FolderHandler extends AbstractFilesystem implements FilesystemInterface
      * @param string $path
      * @return bool
      * 
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function move(string $name, string $to, string $path):bool
     {}
@@ -103,7 +101,7 @@ class FolderHandler extends AbstractFilesystem implements FilesystemInterface
      *
      * @return bool
      *
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function searchInside(string $name, string $search, string $path):bool
     {}
