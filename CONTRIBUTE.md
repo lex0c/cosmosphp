@@ -5,7 +5,7 @@
 
 1. Make fork the repository
 2. Create a new branch for each feature, component or improvement
-3. Send a pull request from each component branch to the "developing" branch
+3. Send a pull request from each component branch to the developing branch
 
 > It is very important to separate new component or improvements into separate components branches, and to send a pull request for each branch. This allows me to review and pull in new features or improvements individually.
 
