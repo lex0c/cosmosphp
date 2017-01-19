@@ -1,6 +1,7 @@
 <?php
 
-use Cosmos\Container\Container;
+use \Cosmos\Container\Container;
+use \Cosmos\Utils\Slugger;
 
 if (!function_exists('cosmos')) {
     /**
@@ -37,6 +38,21 @@ if (!function_exists('dd')) {
         $dump = cosmos('Cosmos\Debug\Debugger');
         $dump->varDump($data, $superDump);
         die(1);
+    }
+}
+
+if (!function_exists('slug')) {
+    /**
+     * Replace spaces with dashes to format file names.
+     *
+     * @param string $phrase
+     * @param bool   $inArray
+     *
+     * @return mixed
+     */
+    function slug(string $phrase, bool $inArray = false)
+    {
+        return Slugger::format($phrase, $inArray);
     }
 }
 
