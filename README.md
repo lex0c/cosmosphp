@@ -9,4 +9,4 @@ Please, see [doc for contribute](https://github.com/lleocastro/cosmosphp/blob/ma
 
 ### License
 
-The CosmosPHP is licensed under the MIT license. See [License File](https://github.com/lleocastro/cosmosphp/blob/master/LICENSE) for more information.
+The CosmosPHP is licensed under the MIT license. See [License File](https://github.com/lleocastro/cosmosphp/blob/master/License) for more information.
