@@ -1,7 +1,7 @@
 <?php
 namespace Cosmos\Filesystem;
 
-use Cosmos\Filesystem\Traits\Format;
+use \Cosmos\Filesystem\Traits\Format;
 
 /**
  * File Handler
