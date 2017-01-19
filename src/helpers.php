@@ -23,3 +23,20 @@ if(!function_exists('app')) {
 
 }
 
+if(!function_exists('dd')) {
+    /**
+     * Dump the passed variables and end the script.
+     *
+     * @param  mixed $data
+     * @param  bool  $superDump
+     *
+     * @return void
+     */
+    function dd($data, bool $superDump = true):void
+    {
+        $dump = app('Cosmos\Debug\Debugger');
+        $dump->varDump($data, $superDump);
+        die(1);
+    }
+}
+
