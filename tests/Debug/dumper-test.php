@@ -14,4 +14,4 @@ $user->x = [
     ]
 ];
 
-dd($user);
+vDump($user);

@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Cosmos Helpers
+ * @link https://github.com/lleocastro/cosmosphp/
+ * @license https://github.com/lleocastro/cosmosphp/blob/master/LICENSE
+ * @author Léo Castro <leonardo_carvalho@outlook.com>
+ *
+ */
+
 use \Cosmos\Container\Container;
 use \Cosmos\Utils\Slugger;
 
@@ -24,7 +32,7 @@ if (!function_exists('cosmos')) {
 
 }
 
-if (!function_exists('dd')) {
+if (!function_exists('vDump')) {
     /**
      * Displays debug about the data and ends the script.
      *
@@ -33,7 +41,7 @@ if (!function_exists('dd')) {
      *
      * @return void
      */
-    function dd($data, bool $superDump = true):void
+    function vDump($data, bool $superDump = true):void
     {
         $dump = cosmos('Cosmos\Debug\Debugger');
         $dump->varDump($data, $superDump);
