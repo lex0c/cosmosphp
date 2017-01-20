@@ -16,7 +16,7 @@ class CollectionIterator implements Iterator
     /**
      * Collection instance.
      *
-     * @var Collection
+     * @var CollectionInterface
      */
     protected $collection = null;
 
