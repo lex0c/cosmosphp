@@ -1,6 +1,9 @@
 <?php
 namespace Cosmos\Collections;
 
+use Cosmos\Collections\Interfaces\CollectionInterface;
+use \Iterator;
+use \Cosmos\Collections\Traits\Comparable;
 use \Cosmos\Collections\Exceptions\IndexBoundsException;
 use \Cosmos\Collections\Exceptions\NullPointerException;
 
@@ -13,6 +16,7 @@ use \Cosmos\Collections\Exceptions\NullPointerException;
  */
 class ArrayList extends AbstractArrayable
 {
+    use Comparable;
 
     /**
      * Initialize constructor of Arrayable.
@@ -31,8 +35,12 @@ class ArrayList extends AbstractArrayable
      */
     public function add($element):bool
     {
-        $this->arrayable[] = $element;
-        return true;
+        if (!$this->isEquals($element, $this->arrayable)) {
+            $this->arrayable[] = $element;
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -46,7 +54,42 @@ class ArrayList extends AbstractArrayable
      * @throws IndexBoundsException
      */
     public function addIn(int $index, $element):bool
-    {}
+    {
+        if (!$this->isEquals($element, $this->arrayable)) {
+            if ((array_key_exists($index, $this->arrayable))
+                && (array_key_exists($index + 1, $this->arrayable))) {
+                $arr = []; $y = 0;
+
+                for ($i = $index; $i < count($this->arrayable); $i++) {
+                    $arr[$y] = $this->arrayable[$i];
+                    $y++;
+                }
+
+                $y = $index + 1;
+                $this->arrayable[$index] = $element;
+
+                for ($i = 0; $i < count($arr); $i++) {
+                    $this->arrayable[$y] = $arr[$i];
+                    $y++;
+                }
+
+                return true;
+            } elseif ((array_key_exists($index, $this->arrayable))
+                && (!array_key_exists($index + 1, $this->arrayable))) {
+
+                $aux = $this->arrayable[$index];
+                $this->arrayable[$index] = $element;
+                $this->arrayable[$index + 1] = $aux;
+                return true;
+
+            } elseif (!array_key_exists($index, $this->arrayable)) {
+                $this->arrayable[$index] = $element;
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Replaces the element at the specified position in this list
@@ -66,13 +109,13 @@ class ArrayList extends AbstractArrayable
      * Appends all of the elements in the specified collection to
      * the end of this list.
      *
-     * @param array $elements
+     * @param CollectionInterface $arrayList
      *
      * @return bool
      *
      * @throws NullPointerException
      */
-    public function merge(array $elements):bool
+    public function merge(CollectionInterface $arrayList):bool
     {}
 
     /**
@@ -87,9 +130,6 @@ class ArrayList extends AbstractArrayable
     public function get(int $index)
     {
         if(array_key_exists($index, $this->arrayable)):
-
-            $this->current = $index;
-
             return $this->arrayable[$index];
         endif;
 
@@ -179,9 +219,11 @@ class ArrayList extends AbstractArrayable
     {}
 
     /**
+     * Returns iterator of this ArrayList.
      *
+     * @return Iterator
      */
-    public function getIterator()
+    public function getIterator():Iterator
     {
         return new CollectionIterator($this);
     }

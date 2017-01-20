@@ -56,12 +56,11 @@ abstract class AbstractArrayable implements IteratorAggregate, CollectionInterfa
     /**
      * Removes all of the elements from this list.
      *
-     * @return bool
+     * @return void
      */
-    public function clear():bool
+    public function clear()
     {
         $this->arrayable = [];
-        return true;
     }
 
     /**
@@ -76,7 +75,7 @@ abstract class AbstractArrayable implements IteratorAggregate, CollectionInterfa
 
     public function getAll():array
     {
-        return $this->arrayable;
+        return array_filter($this->arrayable);
     }
 
 }

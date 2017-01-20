@@ -52,13 +52,13 @@ interface CollectionInterface
      * Appends all of the elements in the specified collection to 
      * the end of this list.
      * 
-     * @param array $elements
+     * @param CollectionInterface $array
      * 
      * @return bool
      *
      * @throws NullPointerException
      */
-    public function merge(array $elements):bool;
+    public function merge(CollectionInterface $array):bool;
 
     /**
      * Returns the element at the specified position in this list.
@@ -163,10 +163,9 @@ interface CollectionInterface
     /**
      * Removes all of the elements from this list.
      * 
-     * @return bool
+     * @return void
      */
-    public function clear():bool;
-
+    public function clear();
     /**
      * Returns the number of elements in this list.
      * 
