@@ -72,6 +72,13 @@ interface CollectionInterface
     public function get(int $index);
 
     /**
+     * Returns all elements in this list.
+     *
+     * @return array
+     */
+    public function getAll():array;
+
+    /**
      * Returns true if this list contains the specified element.
      * 
      * @param mixed $element
