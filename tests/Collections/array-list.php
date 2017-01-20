@@ -38,7 +38,23 @@ echo "<pre>";
 print_r($list->getAll());
 echo "</pre>";
 
+echo "<br>";
+echo "<br>";
 
+$list2 = new ArrayList();
+$list2->add('blue');
+$list2->add(235354);
 
+echo "<pre>";
+print_r($list2->getAll());
+echo "</pre>";
 
+$list2->merge($list);
+
+echo "<br>";
+echo "<br>";
+
+echo "<pre>";
+print_r($list2->getAll());
+echo "</pre>";
 

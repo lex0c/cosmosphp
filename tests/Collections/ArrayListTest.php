@@ -135,6 +135,11 @@ class ArrayListTest extends TestCase
     public function testSetElementsInList(ArrayList $list)
     {
         $this->assertTrue($list->set(3, 155));
+        $this->assertTrue($list->set(5, 'dsfsgh'));
+        $this->assertTrue($list->set(0, new \stdClass()));
+
+        $this->assertEquals(155, $list->get(3));
+        $this->assertEquals('dsfsgh', $list->get(5));
     }
 
     /**
@@ -146,5 +151,50 @@ class ArrayListTest extends TestCase
     {
         $list->set(9, 155);
     }
+
+    /**
+     * @test
+     * @depends testAddElementsInList
+     * @expectedSuccess
+     */
+    public function testMergeAnotherCollectionListInCurrentList(ArrayList $list)
+    {
+        $list2 = new ArrayList();
+        $list2->add('blue');
+        $list2->add(235354);
+
+        $this->assertTrue($list->merge($list2));
+
+        $this->assertCount(8, $list->getAll());
+
+        $this->assertArrayHasKey(0, $list->getAll());
+        $this->assertArrayHasKey(1, $list->getAll());
+        $this->assertArrayHasKey(2, $list->getAll());
+        $this->assertArrayHasKey(3, $list->getAll());
+        $this->assertArrayHasKey(4, $list->getAll());
+        $this->assertArrayHasKey(5, $list->getAll());
+        $this->assertArrayHasKey(6, $list->getAll());
+
+        $this->assertEquals('world', $list->get(1));
+        $this->assertEquals('helloooo', $list->get(2));
+        $this->assertEquals(155, $list->get(3));
+        $this->assertEquals('dsfsgh', $list->get(5));
+        $this->assertEquals('blue', $list->get(6));
+        $this->assertEquals(235354, $list->get(7));
+
+        return $list;
+    }
+
+    /**
+     * @test
+     * @depends testAddElementsInList
+     * @expectedException \RuntimeException
+     */
+    public function testExceptionByMergeAnotherCollectionListEmpty(ArrayList $list)
+    {
+        $list->merge(new ArrayList());
+    }
+
+    //
 
 }

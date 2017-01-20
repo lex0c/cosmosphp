@@ -1,12 +1,12 @@
 <?php
 namespace Cosmos\Collections;
 
-use Cosmos\Collections\Exceptions\IndexNotFoundException;
 use \Iterator;
 use \Cosmos\Collections\Traits\Comparable;
 use \Cosmos\Collections\Exceptions\IndexBoundsException;
 use \Cosmos\Collections\Exceptions\NullPointerException;
 use \Cosmos\Collections\Interfaces\CollectionInterface;
+use \Cosmos\Collections\Exceptions\IndexNotFoundException;
 
 /**
  * Array List
@@ -106,7 +106,20 @@ class ArrayList extends AbstractArrayable
      * @throws NullPointerException
      */
     public function merge(CollectionInterface $arrayList):bool
-    {}
+    {
+        if ($arrayList->size() != -1) {
+            $y = $this->size();
+
+            for ($i = 0; $i < count($arrayList->getAll()); $i++) {
+                $this->arrayable[$y] = $arrayList->get($i);
+                $y++;
+            }
+
+            return true;
+        }
+
+        throw new NullPointerException();
+    }
 
     /**
      * Returns the element at the specified position in this list.
@@ -119,7 +132,7 @@ class ArrayList extends AbstractArrayable
      */
     public function get(int $index)
     {
-        if(array_key_exists($index, $this->arrayable)):
+        if($this->keyExists($index, $this->arrayable)):
             return $this->arrayable[$index];
         endif;
 
