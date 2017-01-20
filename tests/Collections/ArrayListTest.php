@@ -127,4 +127,24 @@ class ArrayListTest extends TestCase
 
     }
 
+    /**
+     * @test
+     * @depends testAddElementsInList
+     * @expectedSuccess
+     */
+    public function testSetElementsInList(ArrayList $list)
+    {
+        $this->assertTrue($list->set(3, 155));
+    }
+
+    /**
+     * @test
+     * @depends testAddElementsInList
+     * @expectedException \RuntimeException
+     */
+    public function testExceptionBySetElementsInListWhatKeyNotExists(ArrayList $list)
+    {
+        $list->set(9, 155);
+    }
+
 }

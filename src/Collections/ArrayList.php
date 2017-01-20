@@ -1,11 +1,12 @@
 <?php
 namespace Cosmos\Collections;
 
-use Cosmos\Collections\Interfaces\CollectionInterface;
+use Cosmos\Collections\Exceptions\IndexNotFoundException;
 use \Iterator;
 use \Cosmos\Collections\Traits\Comparable;
 use \Cosmos\Collections\Exceptions\IndexBoundsException;
 use \Cosmos\Collections\Exceptions\NullPointerException;
+use \Cosmos\Collections\Interfaces\CollectionInterface;
 
 /**
  * Array List
@@ -30,12 +31,18 @@ class ArrayList extends AbstractArrayable
      * Appends the specified element to the end of this list.
      *
      * @param mixed $element
+     * @param bool  $addEqual
      *
      * @return bool
      */
-    public function add($element):bool
+    public function add($element, bool $addEqual = false):bool
     {
-        if (!$this->isEquals($element, $this->arrayable)) {
+        if (!$addEqual) {
+            if (!$this->isEquals($element, $this->arrayable)) {
+                $this->arrayable[] = $element;
+                return true;
+            }
+        } else {
             $this->arrayable[] = $element;
             return true;
         }
@@ -46,46 +53,22 @@ class ArrayList extends AbstractArrayable
     /**
      * Inserts the specified element at the specified position in this list.
      *
-     * @param int $index
+     * @param int   $index
      * @param mixed $element
+     * @param bool  $addEqual
      *
      * @return bool
-     *
-     * @throws IndexBoundsException
      */
-    public function addIn(int $index, $element):bool
+    public function addIn(int $index, $element, bool $addEqual = false):bool
     {
-        if (!$this->isEquals($element, $this->arrayable)) {
-            if ((array_key_exists($index, $this->arrayable))
-                && (array_key_exists($index + 1, $this->arrayable))) {
-                $arr = []; $y = 0;
-
-                for ($i = $index; $i < count($this->arrayable); $i++) {
-                    $arr[$y] = $this->arrayable[$i];
-                    $y++;
-                }
-
-                $y = $index + 1;
-                $this->arrayable[$index] = $element;
-
-                for ($i = 0; $i < count($arr); $i++) {
-                    $this->arrayable[$y] = $arr[$i];
-                    $y++;
-                }
-
-                return true;
-            } elseif ((array_key_exists($index, $this->arrayable))
-                && (!array_key_exists($index + 1, $this->arrayable))) {
-
-                $aux = $this->arrayable[$index];
-                $this->arrayable[$index] = $element;
-                $this->arrayable[$index + 1] = $aux;
-                return true;
-
-            } elseif (!array_key_exists($index, $this->arrayable)) {
-                $this->arrayable[$index] = $element;
+        if(!$addEqual) {
+            if (!$this->isEquals($element, $this->arrayable)) {
+                $this->addWithPosition($index, $element);
                 return true;
             }
+        } else {
+            $this->addWithPosition($index, $element);
+            return true;
         }
 
         return false;
@@ -100,10 +83,17 @@ class ArrayList extends AbstractArrayable
      *
      * @return bool
      *
-     * @throws IndexBoundsException
+     * @throws IndexNotFoundException
      */
     public function set(int $index, $element):bool
-    {}
+    {
+        if ($this->keyExists($index, $this->arrayable)) {
+            $this->arrayable[$index] = $element;
+            return true;
+        }
+
+        throw new IndexNotFoundException();
+    }
 
     /**
      * Appends all of the elements in the specified collection to
@@ -226,6 +216,45 @@ class ArrayList extends AbstractArrayable
     public function getIterator():Iterator
     {
         return new CollectionIterator($this);
+    }
+
+    /**
+     * Inserts the specified element at the specified position in this list.
+     *
+     * @param int   $index
+     * @param mixed $element
+     *
+     * @return void
+     */
+    protected function addWithPosition(int $index, $element)
+    {
+        if (($this->keyExists($index, $this->arrayable))
+            && ($this->keyExists($index + 1, $this->arrayable))) {
+            $arr = []; $y = 0;
+
+            for ($i = $index; $i < count($this->arrayable); $i++) {
+                $arr[$y] = $this->arrayable[$i];
+                $y++;
+            }
+
+            $y = $index + 1;
+            $this->arrayable[$index] = $element;
+
+            for ($i = 0; $i < count($arr); $i++) {
+                $this->arrayable[$y] = $arr[$i];
+                $y++;
+            }
+
+        } elseif (($this->keyExists($index, $this->arrayable))
+            && (!$this->keyExists($index + 1, $this->arrayable))) {
+
+            $aux = $this->arrayable[$index];
+            $this->arrayable[$index] = $element;
+            $this->arrayable[$index + 1] = $aux;
+
+        } elseif (!$this->keyExists($index, $this->arrayable)) {
+            $this->arrayable[$index] = $element;
+        }
     }
 
 }

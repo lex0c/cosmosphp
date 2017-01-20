@@ -23,8 +23,22 @@ echo "<br>";
 $list->addIn(2, 'world');
 $list->addIn(7, 'aaaaa');
 $list->addIn(6, 4365676);
+$list->addIn(8, 4365676);
 
 echo "<pre>";
 print_r($list->getAll());
 echo "</pre>";
+
+echo "<br>";
+echo "<br>";
+
+$list->set(3, 155);
+
+echo "<pre>";
+print_r($list->getAll());
+echo "</pre>";
+
+
+
+
 
