@@ -195,6 +195,37 @@ class ArrayListTest extends TestCase
         $list->merge(new ArrayList());
     }
 
+    /**
+     * @test
+     * @depends testAddElementsInList
+     * @expectedSuccess
+     */
+    public function testIfListContainsDeterminedElement(ArrayList $list)
+    {
+        $this->assertTrue($list->contains('blue'));
+        $this->assertTrue($list->contains('helloooo'));
+        $this->assertTrue($list->contains(235354));
+
+        // Failure
+        $this->assertFalse($list->contains(986));
+    }
+
+    /**
+     * @test
+     * @depends testAddElementsInList
+     * @expectedSuccess
+     */
+    public function testGetFirstOcurrencyOfElement(ArrayList $list)
+    {
+        $this->assertEquals(6,$list->indexOf('blue'));
+        $this->assertEquals(2,$list->indexOf('helloooo'));
+        $this->assertEquals(5,$list->indexOf('dsfsgh'));
+        $this->assertEquals(7,$list->indexOf(235354));
+
+        // Failure
+        $this->assertEquals(-1,$list->indexOf('sdkvsoijo'));
+    }
+
     //
 
 }

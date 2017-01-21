@@ -38,7 +38,7 @@ class ArrayList extends AbstractArrayable
     public function add($element, bool $addEqual = false):bool
     {
         if (!$addEqual) {
-            if (!$this->isEquals($element, $this->arrayable)) {
+            if (!$this->isEquals($element, $this->getAll())) {
                 $this->arrayable[] = $element;
                 return true;
             }
@@ -58,20 +58,24 @@ class ArrayList extends AbstractArrayable
      * @param bool  $addEqual
      *
      * @return bool
+     *
+     * @throws NullPointerException
      */
     public function addIn(int $index, $element, bool $addEqual = false):bool
     {
-        if(!$addEqual) {
-            if (!$this->isEquals($element, $this->arrayable)) {
+        if ($index < $this->size()) {
+            if (!$addEqual) {
+                if (!$this->isEquals($element, $this->getAll())) {
+                    $this->addWithPosition($index, $element);
+                    return true;
+                }
+            } else {
                 $this->addWithPosition($index, $element);
                 return true;
             }
-        } else {
-            $this->addWithPosition($index, $element);
-            return true;
         }
 
-        return false;
+        throw new NullPointerException();
     }
 
     /**
@@ -87,7 +91,7 @@ class ArrayList extends AbstractArrayable
      */
     public function set(int $index, $element):bool
     {
-        if ($this->keyExists($index, $this->arrayable)) {
+        if ($this->keyExists($index, $this->getAll())) {
             $this->arrayable[$index] = $element;
             return true;
         }
@@ -103,22 +107,22 @@ class ArrayList extends AbstractArrayable
      *
      * @return bool
      *
-     * @throws NullPointerException
+     * @throws IndexBoundsException
      */
     public function merge(CollectionInterface $arrayList):bool
     {
         if ($arrayList->size() != -1) {
             $y = $this->size();
 
-            for ($i = 0; $i < count($arrayList->getAll()); $i++) {
-                $this->arrayable[$y] = $arrayList->get($i);
+            for ($i = 0; $i < $arrayList->size(); $i++) {
+                $this->addWithPosition($y, $arrayList->get($i));
                 $y++;
             }
 
             return true;
         }
 
-        throw new NullPointerException();
+        throw new IndexBoundsException();
     }
 
     /**
@@ -132,7 +136,7 @@ class ArrayList extends AbstractArrayable
      */
     public function get(int $index)
     {
-        if($this->keyExists($index, $this->arrayable)):
+        if($this->keyExists($index, $this->getAll())):
             return $this->arrayable[$index];
         endif;
 
@@ -140,14 +144,16 @@ class ArrayList extends AbstractArrayable
     }
 
     /**
-     * Returns true if this list contains the specified element.
+     * Returns index if this list contains the specified element.
      *
      * @param mixed $element
      *
      * @return bool
      */
     public function contains($element):bool
-    {}
+    {
+        return $this->isEquals($element, $this->getAll());
+    }
 
     /**
      * Returns the index of the first occurrence of the specified
@@ -158,7 +164,15 @@ class ArrayList extends AbstractArrayable
      * @return int
      */
     public function indexOf($element):int
-    {}
+    {
+        $index = $this->isEquals($element, $this->getAll(), true);
+
+        if ($index !== false) {
+            return $index;
+        }
+
+        return -1;
+    }
 
     /**
      * Returns the index of the last occurrence of the specified element
@@ -169,7 +183,9 @@ class ArrayList extends AbstractArrayable
      * @return int
      */
     public function lastIndexOf($element):int
-    {}
+    {
+        //
+    }
 
     /**
      * Removes the element at the specified position in this list.
@@ -241,11 +257,11 @@ class ArrayList extends AbstractArrayable
      */
     protected function addWithPosition(int $index, $element)
     {
-        if (($this->keyExists($index, $this->arrayable))
-            && ($this->keyExists($index + 1, $this->arrayable))) {
+        if (($this->keyExists($index, $this->getAll()))
+            && ($this->keyExists($index + 1, $this->getAll()))) {
             $arr = []; $y = 0;
 
-            for ($i = $index; $i < count($this->arrayable); $i++) {
+            for ($i = $index; $i < $this->size(); $i++) {
                 $arr[$y] = $this->arrayable[$i];
                 $y++;
             }
@@ -258,14 +274,14 @@ class ArrayList extends AbstractArrayable
                 $y++;
             }
 
-        } elseif (($this->keyExists($index, $this->arrayable))
-            && (!$this->keyExists($index + 1, $this->arrayable))) {
+        } elseif (($this->keyExists($index, $this->getAll()))
+            && (!$this->keyExists($index + 1, $this->getAll()))) {
 
             $aux = $this->arrayable[$index];
             $this->arrayable[$index] = $element;
             $this->arrayable[$index + 1] = $aux;
 
-        } elseif (!$this->keyExists($index, $this->arrayable)) {
+        } elseif (!$this->keyExists($index, $this->getAll())) {
             $this->arrayable[$index] = $element;
         }
     }

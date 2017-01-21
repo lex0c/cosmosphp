@@ -13,16 +13,21 @@ trait Comparable
     /**
      * Compare if the element already exists in array.
      *
-     * @param mixed $element
-     * @param $array $array
+     * @param mixed  $element
+     * @param array  $array
+     * @param bool   $getIndex
      *
-     * @return boolean
+     * @return int/bool
      */
-    protected function isEquals($element, array $array):bool
+    protected function isEquals($element, array $array, bool $getIndex = false)
     {
-
-        for ($i = 0; $i < count($array); $i++) {
+        for ($i = 0; $i < sizeof($array); $i++) {
             if ($element === $array[$i]) {
+
+                if($getIndex) {
+                    return $i;
+                }
+
                 return true;
             }
         }

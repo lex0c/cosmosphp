@@ -31,7 +31,7 @@ interface CollectionInterface
      * 
      * @return bool
      * 
-     * @throws IndexBoundsException
+     * @throws NullPointerException
      */
     public function addIn(int $index, $element):bool;
 
@@ -56,7 +56,7 @@ interface CollectionInterface
      * 
      * @return bool
      *
-     * @throws NullPointerException
+     * @throws IndexBoundsException
      */
     public function merge(CollectionInterface $array):bool;
 
@@ -79,7 +79,7 @@ interface CollectionInterface
     public function getAll():array;
 
     /**
-     * Returns true if this list contains the specified element.
+     * Returns index if this list contains the specified element.
      * 
      * @param mixed $element
      * 
