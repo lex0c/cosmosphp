@@ -100,3 +100,9 @@ echo "</pre>";
 echo "<br>";
 echo "<br>";
 
+$subList = $list2->subList(1, 4);
+
+echo "<pre>";
+print_r($subList);
+echo "</pre>";
+

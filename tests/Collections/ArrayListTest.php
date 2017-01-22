@@ -129,6 +129,36 @@ class ArrayListTest extends TestCase
 
     /**
      * @test
+     * @expectedSuccess
+     */
+    public function testAddElementInFinalListWithPosition()
+    {
+        $list = new ArrayList();
+
+        $this->assertTrue($list->add('wegerg'));
+        $this->assertTrue($list->add(434365));
+        $this->assertTrue($list->add('egw4363fger'));
+
+        $this->assertTrue($list->addIn(2, 'hellooo'));
+
+        $this->assertArrayHasKey(0, $list->getAll());
+        $this->assertArrayHasKey(1, $list->getAll());
+        $this->assertArrayHasKey(2, $list->getAll());
+        $this->assertArrayHasKey(3, $list->getAll());
+
+        $this->assertContains('wegerg', $list->getAll());
+        $this->assertContains(434365, $list->getAll());
+        $this->assertContains('egw4363fger', $list->getAll());
+        $this->assertContains('hellooo', $list->getAll());
+
+        $this->assertEquals('wegerg', $list->get(0));
+        $this->assertEquals(434365, $list->get(1));
+        $this->assertEquals('hellooo', $list->get(2));
+        $this->assertEquals('egw4363fger', $list->get(3));
+    }
+
+    /**
+     * @test
      * @depends testAddElementsInList
      * @expectedSuccess
      */
@@ -147,9 +177,9 @@ class ArrayListTest extends TestCase
      * @depends testAddElementsInList
      * @expectedException \RuntimeException
      */
-    public function testExceptionBySetElementsInListWhatKeyNotExists(ArrayList $list)
+    public function testExceptionBySetElementsInListWithNegativeIndex(ArrayList $list)
     {
-        $list->set(9, 155);
+        $list->set(-1, 155);
     }
 
     /**
@@ -377,6 +407,38 @@ class ArrayListTest extends TestCase
         $list->removeRange(1, 1);
     }
 
-    //
+    /**
+     * @test
+     * @expectedSuccess
+     */
+    public function testGetSubListOfCollectionList()
+    {
+        $list = new ArrayList();
+        $list->add(12);
+        $list->add(12, true);
+        $list->add('www');
+        $list->add('2453466356');
+        $list->add(346575);
+        $list->add('dd');
+        $list->add(12);
+        $list->add('helloooo');
+        $list->add('15');
+        $list->add(11.23);
+
+        $subList = $list->subList(1, 6);
+
+        $this->assertCount(6, $subList);
+
+        $this->assertContains(12, $subList);
+        $this->assertContains('www', $subList);
+        $this->assertContains('2453466356', $subList);
+        $this->assertContains(346575, $subList);
+        $this->assertContains('dd', $subList);
+        $this->assertContains(12, $subList);
+        $this->assertContains('helloooo', $subList);
+
+        $this->assertNotContains('15', $subList);
+        $this->assertNotContains(11.23, $subList);
+    }
 
 }

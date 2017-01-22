@@ -7,7 +7,6 @@ use \Cosmos\Collections\Traits\Comparable;
 use \Cosmos\Collections\Exceptions\IndexBoundsException;
 use \Cosmos\Collections\Exceptions\NullPointerException;
 use \Cosmos\Collections\Interfaces\CollectionInterface;
-use \Cosmos\Collections\Exceptions\IndexNotFoundException;
 
 /**
  * Array List
@@ -88,16 +87,16 @@ class ArrayList extends AbstractArrayable implements IteratorAggregate, Collecti
      *
      * @return bool
      *
-     * @throws IndexNotFoundException
+     * @throws NullPointerException
      */
     public function set(int $index, $element):bool
     {
-        if ($this->keyExists($index, $this->getAll())) {
+        if ($index >= 0) {
             $this->arrayable[$index] = $element;
             return true;
         }
 
-        throw new IndexNotFoundException();
+        throw new NullPointerException();
     }
 
     /**
@@ -120,6 +119,7 @@ class ArrayList extends AbstractArrayable implements IteratorAggregate, Collecti
                 $y++;
             }
 
+            unset($y);
             return true;
         }
 
@@ -172,6 +172,7 @@ class ArrayList extends AbstractArrayable implements IteratorAggregate, Collecti
             return $index;
         }
 
+        unset($index);
         return -1;
     }
 
@@ -208,17 +209,16 @@ class ArrayList extends AbstractArrayable implements IteratorAggregate, Collecti
     {
         if (($this->keyExists($index, $this->getAll()))
             && ($this->keyExists($index + 1, $this->getAll()))) {
-            $arr = []; $y = 0;
+            $arr = [];
 
             for ($i = $index+1; $i < $this->size(); $i++) {
-                $arr[$y] = $this->get($i);
-                $y++;
+                $arr[] = $this->get($i);
             }
 
             $y = $index;
             $this->arrayable[$index] = null;
             for ($i = 0; $i < sizeof($arr); $i++) {
-                $this->arrayable[$y] = $arr[$i];
+                $this->set($y, $arr[$i]);
                 $y++;
             }
 
@@ -315,7 +315,19 @@ class ArrayList extends AbstractArrayable implements IteratorAggregate, Collecti
      * @throws IndexBoundsException
      */
     public function subList(int $fromIndex, int $toIndex):array
-    {}
+    {
+        if ($fromIndex < $toIndex) {
+            $arr = [];
+            for ($i = $fromIndex; $i <= $toIndex; $i++) {
+                $arr[] = $this->get($i);
+            }
+
+            return $arr;
+        }
+
+        throw new \InvalidArgumentException(
+            "This fromIndex '{$fromIndex}' must be less than toIndex '{$toIndex}'.");
+    }
 
     /**
      * Returns iterator of this ArrayList.
@@ -339,18 +351,15 @@ class ArrayList extends AbstractArrayable implements IteratorAggregate, Collecti
     {
         if (($this->keyExists($index, $this->getAll()))
             && ($this->keyExists($index + 1, $this->getAll()))) {
-            $arr = []; $y = 0;
-
+            $arr = [];
             for ($i = $index; $i < $this->size(); $i++) {
-                $arr[$y] = $this->arrayable[$i];
-                $y++;
+                $arr[] = $this->get($i);
             }
 
             $y = $index + 1;
             $this->arrayable[$index] = $element;
-
             for ($i = 0; $i < count($arr); $i++) {
-                $this->arrayable[$y] = $arr[$i];
+                $this->set($y, $arr[$i]);
                 $y++;
             }
 
@@ -359,13 +368,13 @@ class ArrayList extends AbstractArrayable implements IteratorAggregate, Collecti
         } elseif (($this->keyExists($index, $this->getAll()))
             && (!$this->keyExists($index + 1, $this->getAll()))) {
 
-            $aux = $this->arrayable[$index];
-            $this->arrayable[$index] = $element;
-            $this->arrayable[$index + 1] = $aux;
+            $var = $this->get($index);
+            $this->set($index, $element);
+            $this->set($index + 1, $var);
 
-            unset($aux);
+            unset($var);
         } elseif (!$this->keyExists($index, $this->getAll())) {
-            $this->arrayable[$index] = $element;
+            $this->set($index, $element);
         }
     }
 
