@@ -4,9 +4,10 @@ namespace Cosmos\Collections;
 use \Iterator;
 use \IteratorAggregate;
 use \Cosmos\Collections\Traits\Comparable;
+use \Cosmos\Collections\Interfaces\CollectionInterface;
 use \Cosmos\Collections\Exceptions\IndexBoundsException;
 use \Cosmos\Collections\Exceptions\NullPointerException;
-use \Cosmos\Collections\Interfaces\CollectionInterface;
+use \Cosmos\Collections\Exceptions\InvalidElementTypeException;
 
 /**
  * Array List
@@ -32,19 +33,44 @@ class ArrayList extends AbstractArrayable implements IteratorAggregate, Collecti
      *
      * @param mixed $element
      * @param bool  $addEqual
+     * @param bool  $recursive
      *
      * @return bool
+     *
+     * @throws InvalidElementTypeException
      */
-    public function add($element, bool $addEqual = false):bool
+    public function add($element, bool $addEqual = false, bool $recursive = false):bool
     {
-        if (!$addEqual) {
-            if (!$this->isEquals($element, $this->getAll())) {
+        if (($recursive) && (is_array($element))) {
+            $size = $this->size();
+            for ($i = 0; $i < sizeof($element); $i++) {
+
+                if (!$addEqual) {
+                    if (!$this->isEquals($element[$i], $this->getAll())) {
+                        $this->set($size++, $element[$i]);
+                    }
+                } else {
+                    $this->set($size++, $element[$i]);
+                }
+
+            }
+
+            return true;
+        } elseif (!$recursive) {
+
+            if (!$addEqual) {
+                if (!$this->isEquals($element, $this->getAll())) {
+                    $this->arrayable[] = $element;
+                    return true;
+                }
+            } else {
                 $this->arrayable[] = $element;
                 return true;
             }
+
         } else {
-            $this->arrayable[] = $element;
-            return true;
+            throw new InvalidElementTypeException(
+                "This element {$element} must be an array in recursive mode!");
         }
 
         return false;
@@ -119,7 +145,6 @@ class ArrayList extends AbstractArrayable implements IteratorAggregate, Collecti
                 $y++;
             }
 
-            unset($y);
             return true;
         }
 
@@ -172,7 +197,6 @@ class ArrayList extends AbstractArrayable implements IteratorAggregate, Collecti
             return $index;
         }
 
-        unset($index);
         return -1;
     }
 
@@ -224,7 +248,9 @@ class ArrayList extends AbstractArrayable implements IteratorAggregate, Collecti
 
             unset($this->arrayable[$this->size()-1]);
             unset($arr);
-            unset($y);
+
+            // Temporary solution to remove empty indexes after removal of elements ..
+            $this->arrayable = array_filter($this->arrayable);
 
             return true;
         } elseif (($this->keyExists($index, $this->getAll()))
@@ -282,20 +308,13 @@ class ArrayList extends AbstractArrayable implements IteratorAggregate, Collecti
     public function removeRange(int $fromIndex, int $toIndex):bool
     {
         if ($fromIndex < $toIndex) {
-            $arr = [];
-            for ($i = $fromIndex; $i <= $toIndex; $i++) {
-                $arr[] = $this->get($i);
-            }
-
-            $y = 0;
-            while ($y < sizeof($arr)) {
-                if ($this->remove($this->indexOf($arr[$y]))) {
-                    $y++;
+            $to = $toIndex;
+            while ($fromIndex <= $to) {
+                if ($this->remove($fromIndex)) {
+                    $to--;
                 }
             }
 
-            unset($arr);
-            unset($y);
             return true;
         }
 
@@ -364,7 +383,6 @@ class ArrayList extends AbstractArrayable implements IteratorAggregate, Collecti
             }
 
             unset($arr);
-            unset($y);
         } elseif (($this->keyExists($index, $this->getAll()))
             && (!$this->keyExists($index + 1, $this->getAll()))) {
 

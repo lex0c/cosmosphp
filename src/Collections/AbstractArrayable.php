@@ -82,7 +82,7 @@ abstract class AbstractArrayable
      *
      * @return array
      */
-    public function getAll(bool $filter = false):array
+    public function getAll(bool $filter = true):array
     {
         if ($filter) {
             return array_filter($this->arrayable);

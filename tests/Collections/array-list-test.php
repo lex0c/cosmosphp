@@ -54,6 +54,7 @@ print_r($list2->getAll());
 echo "</pre>";
 
 $list2->merge($list);
+
 $list2->set(7, 'blue');
 $list2->addIn(8, '23df346456g');
 $list2->addIn(2, '2sdfs3dfg');
@@ -91,7 +92,7 @@ echo "</pre>";
 echo "<br>";
 echo "<br>";
 
-$list2->removeRange(5, 10);
+$list2->removeRange(2, 6);
 
 echo "<pre>";
 print_r($list2->getAll());
@@ -105,4 +106,20 @@ $subList = $list2->subList(1, 4);
 echo "<pre>";
 print_r($subList);
 echo "</pre>";
+
+echo "<br>";
+echo "<br>";
+
+$list2->add([23, 43, 43, 64, 7], false, false);
+$list2->addIn(4, [false]);
+$list2->set(8, 'sdgefer');
+$list2->add(235365757);
+
+$list2->remove(8);
+
+echo "<pre>";
+print_r($list2->getAll());
+echo "</pre>";
+
+//vDump($list2->get(4));
 

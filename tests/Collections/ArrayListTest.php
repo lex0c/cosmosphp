@@ -441,4 +441,21 @@ class ArrayListTest extends TestCase
         $this->assertNotContains(11.23, $subList);
     }
 
+    /**
+     * @test
+     * @expectedSuccess
+     */
+    public function testAddRecursiveElementsInList()
+    {
+        $list = new ArrayList();
+        $list->add('www');
+
+        $this->assertCount(1, $list->getAll());
+
+        $arr = [32, 435, 5667, 675, 453];
+        $this->assertTrue($list->add($arr, false, true));
+
+        $this->assertCount(6, $list->getAll());
+    }
+
 }
