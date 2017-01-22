@@ -2,6 +2,21 @@
 
 > Documentation in development...
 
+### The cosmos is a simple yet efficient library of components.
+
+Mauris aliquet placerat facilisis. Nullam id augue sapien. Duis consequat tristique diam. In sit amet libero a erat sodales mollis quis in enim. Ut sodales odio orci, vitae vestibulum dolor porttitor at. Maecenas cursus sapien eu nibh bibendum sagittis. Praesent cursus nulla sit amet tempor commodo. Pellentesque dictum consequat vehicula. :p
+
+#### List of currently available components
+> Click the specific component to see the complete documentation
+
+- [Container]() 
+- [Collections]()
+- [Filesystem]()
+- [Logger]()
+- [Debug]()
+- [Utils]()
+
+###### *These components are still under development...
 
 ## To contributions
 
