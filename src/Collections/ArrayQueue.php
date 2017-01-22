@@ -10,5 +10,96 @@ namespace Cosmos\Collections;
  */
 class ArrayQueue extends AbstractArrayable
 {
-    //
+    /**
+     *
+     */
+    protected $limit;
+
+    /**
+     *
+     */
+    protected $full = false;
+
+    /**
+     *
+     */
+    protected $locked = false;
+
+    /**
+     *
+     */
+    protected $processQueue = [];
+
+    /**
+     *
+     */
+    public function __construct(int $limit)
+    {
+        parent::__construct();
+
+        // ...
+        $this->limit = $limit;
+        $this->arrayable = new ArrayList();
+    }
+
+    /**
+     *
+     */
+    public function enQueue()
+    {}
+
+    /**
+     *
+     */
+    public function deQueue()
+    {}
+
+    /**
+     *
+     */
+    public function isEmpty():bool
+    {}
+
+    /**
+     *
+     */
+    public function get()
+    {}
+
+    /**
+     *
+     */
+    public function check()
+    {}
+
+    /**
+     *
+     */
+    public function lock()
+    {}
+
+    /**
+     *
+     */
+    public function unLock()
+    {}
+
+    /**
+     *
+     */
+    public function isFull()
+    {}
+
+    /**
+     *
+     */
+    protected function isMaxLimit()
+    {}
+
+    /**
+     *
+     */
+    protected function process()
+    {}
+
 }
