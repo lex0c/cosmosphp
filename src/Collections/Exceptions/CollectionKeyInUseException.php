@@ -10,9 +10,16 @@ namespace Cosmos\Collections\Exceptions;
  */
 class CollectionKeyInUseException extends \Exception
 {
-    public function __construct($key)
+    /**
+     * Handles exception for key in use.
+     *
+     * @param string    $message
+     * @param    int    $code
+     * @param \Exception $previous
+     */
+    public function __construct(string $message = '', int $code = 0, \Exception $previous = null)
     {
-        parent::__construct('Key ' . $key . ' already exists in collection.');
+        parent::__construct($message, $code, $previous);
     }
 
 }
