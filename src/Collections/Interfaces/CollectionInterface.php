@@ -1,9 +1,9 @@
 <?php
 namespace Cosmos\Collections\Interfaces;
 
+use \Cosmos\Collections\AbstractArrayable;
 use \Cosmos\Collections\Exceptions\IndexBoundsException;
 use \Cosmos\Collections\Exceptions\NullPointerException;
-use \Cosmos\Collections\AbstractArrayable;
 
 /**
  * Collection Interface
@@ -15,13 +15,14 @@ use \Cosmos\Collections\AbstractArrayable;
 interface CollectionInterface
 {
     /**
-     * Appends the specified element to the end of this list.
+     * Appends the specified element(s) to the end of this list.
      * 
      * @param mixed $element
+     * @param bool  $recursive
      * 
      * @return bool
      */
-    public function add($element):bool;
+    public function add($element, bool $recursive):bool;
 
     /**
      * Inserts the specified element at the specified position in this list.
@@ -52,13 +53,13 @@ interface CollectionInterface
      * Appends all of the elements in the specified collection to 
      * the end of this list.
      * 
-     * @param CollectionInterface $array
+     * @param CollectionInterface $collection
      * 
      * @return bool
      *
      * @throws IndexBoundsException
      */
-    public function merge(CollectionInterface $array):bool;
+    public function merge(CollectionInterface $collection):bool;
 
     /**
      * Returns the element at the specified position in this list.
@@ -74,9 +75,11 @@ interface CollectionInterface
     /**
      * Returns all elements in this list.
      *
+     * @param bool $filter
+     *
      * @return array
      */
-    public function getAll():array;
+    public function getAll(bool $filter):array;
 
     /**
      * Returns index if this list contains the specified element.
@@ -119,13 +122,15 @@ interface CollectionInterface
     public function remove(int $index):bool;
 
     /**
-     * Removes the first occurrence of the specified element from this list.
+     * Removes the occurrences of the specified element from this list.
      * 
      * @param mixed $element
+     * @param bool  $firstOccurrence
+     * @param bool  $lastOccurrence
      * 
      * @return bool
      */
-    public function removeByElement($element):bool;
+    public function removeByElement($element, bool $firstOccurrence, bool $lastOccurrence):bool;
 
     /**
      * Removes from this list all of the elements whose index is between fromIndex, 
@@ -165,7 +170,7 @@ interface CollectionInterface
      * 
      * @return AbstractArrayable
      */
-    public function clone():AbstractArrayable;
+    public function cloneThis():AbstractArrayable;
 
     /**
      * Removes all of the elements from this list.
@@ -179,12 +184,5 @@ interface CollectionInterface
      * @return int
      */
     public function size():int;
-
-    /**
-     * Returns all keys of collection;
-     *
-     * @return array
-     */
-    public function keys():array;
 
 }
