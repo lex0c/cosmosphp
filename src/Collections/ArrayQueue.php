@@ -1,8 +1,6 @@
 <?php
 namespace Cosmos\Collections;
 
-use \Cosmos\Collections\Interfaces\CollectionInterface;
-
 /**
  * Array Queue
  * @link https://github.com/lleocastro/cosmosphp/
@@ -10,5 +8,7 @@ use \Cosmos\Collections\Interfaces\CollectionInterface;
  * @author Léo Castro <leonardo_carvalho@outlook.com>
  * @package Cosmos\Collections
  */
-class ArrayQueue implements CollectionInterface
-{}
+class ArrayQueue extends AbstractArrayable
+{
+    //
+}
