@@ -2,6 +2,7 @@
 namespace Cosmos\Collections;
 
 use \Iterator;
+use \IteratorAggregate;
 use \Cosmos\Collections\Traits\Comparable;
 use \Cosmos\Collections\Exceptions\IndexBoundsException;
 use \Cosmos\Collections\Exceptions\NullPointerException;
@@ -15,7 +16,7 @@ use \Cosmos\Collections\Exceptions\IndexNotFoundException;
  * @author Léo Castro <leonardo_carvalho@outlook.com>
  * @package Cosmos\Collections
  */
-class ArrayList extends AbstractArrayable
+class ArrayList extends AbstractArrayable implements IteratorAggregate, CollectionInterface
 {
     use Comparable;
 
@@ -103,19 +104,19 @@ class ArrayList extends AbstractArrayable
      * Appends all of the elements in the specified collection to
      * the end of this list.
      *
-     * @param CollectionInterface $arrayList
+     * @param CollectionInterface $collection
      *
      * @return bool
      *
      * @throws IndexBoundsException
      */
-    public function merge(CollectionInterface $arrayList):bool
+    public function merge(CollectionInterface $collection):bool
     {
-        if ($arrayList->size() != -1) {
+        if ($collection->size() != -1) {
             $y = $this->size();
 
-            for ($i = 0; $i < $arrayList->size(); $i++) {
-                $this->addWithPosition($y, $arrayList->get($i));
+            for ($i = 0; $i < $collection->size(); $i++) {
+                $this->addWithPosition($y, $collection->get($i));
                 $y++;
             }
 
@@ -140,11 +141,11 @@ class ArrayList extends AbstractArrayable
             return $this->arrayable[$index];
         endif;
 
-        throw new IndexBoundsException("This key '{$index}' not exists in this list!");
+        throw new IndexBoundsException("This index '{$index}' not exists in this list!");
     }
 
     /**
-     * Returns index if this list contains the specified element.
+     * Returns true if this list contains the specified element.
      *
      * @param mixed $element
      *
@@ -184,7 +185,14 @@ class ArrayList extends AbstractArrayable
      */
     public function lastIndexOf($element):int
     {
-        //
+        $lastIndex = -1;
+        for ($i = 0; $i < $this->size(); $i++) {
+            if ($element === $this->get($i)) {
+                $lastIndex = $i;
+            }
+        }
+
+        return $lastIndex;
     }
 
     /**
@@ -197,17 +205,68 @@ class ArrayList extends AbstractArrayable
      * @throws IndexBoundsException
      */
     public function remove(int $index):bool
-    {}
+    {
+        if (($this->keyExists($index, $this->getAll()))
+            && ($this->keyExists($index + 1, $this->getAll()))) {
+            $arr = []; $y = 0;
+
+            for ($i = $index+1; $i < $this->size(); $i++) {
+                $arr[$y] = $this->get($i);
+                $y++;
+            }
+
+            $y = $index;
+            $this->arrayable[$index] = null;
+            for ($i = 0; $i < sizeof($arr); $i++) {
+                $this->arrayable[$y] = $arr[$i];
+                $y++;
+            }
+
+            unset($this->arrayable[$this->size()-1]);
+            unset($arr);
+            unset($y);
+
+            return true;
+        } elseif (($this->keyExists($index, $this->getAll()))
+            && (!$this->keyExists($index + 1, $this->getAll()))) {
+            unset($this->arrayable[$index]);
+            return true;
+        }
+
+        throw new IndexBoundsException("This index {$index} not exists in this list.");
+    }
 
     /**
-     * Removes the first occurrence of the specified element from this list.
+     * Removes the occurrences of the specified element from this list.
      *
-     * @param mixed $element
+     * @param mixed  $element
+     * @param  bool  $firstOccurrence
+     * @param  bool  $lastOccurrence
      *
      * @return bool
      */
-    public function removeByElement($element):bool
-    {}
+    public function removeByElement($element, bool $firstOccurrence = true,
+                                    bool $lastOccurrence = false):bool
+    {
+        if ($this->contains($element)) {
+            if ((!$firstOccurrence) && (!$lastOccurrence)) {
+                $firstOccurrence = true;
+            }
+
+            if (($firstOccurrence) && (!$lastOccurrence)) {
+                $this->remove($this->indexOf($element));
+            } elseif ((!$firstOccurrence) && ($lastOccurrence)) {
+                $this->remove($this->lastIndexOf($element));
+            } elseif (($firstOccurrence) && ($lastOccurrence)) {
+                $this->remove($this->indexOf($element));
+                $this->remove($this->lastIndexOf($element));
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * Removes from this list all of the elements whose index is between fromIndex,
@@ -221,7 +280,28 @@ class ArrayList extends AbstractArrayable
      * @throws IndexBoundsException
      */
     public function removeRange(int $fromIndex, int $toIndex):bool
-    {}
+    {
+        if ($fromIndex < $toIndex) {
+            $arr = [];
+            for ($i = $fromIndex; $i <= $toIndex; $i++) {
+                $arr[] = $this->get($i);
+            }
+
+            $y = 0;
+            while ($y < sizeof($arr)) {
+                if ($this->remove($this->indexOf($arr[$y]))) {
+                    $y++;
+                }
+            }
+
+            unset($arr);
+            unset($y);
+            return true;
+        }
+
+        throw new \InvalidArgumentException(
+            "This fromIndex '{$fromIndex}' must be less than toIndex '{$toIndex}'.");
+    }
 
     /**
      * Returns a view of the portion of this list between the specified fromIndex,
@@ -274,6 +354,8 @@ class ArrayList extends AbstractArrayable
                 $y++;
             }
 
+            unset($arr);
+            unset($y);
         } elseif (($this->keyExists($index, $this->getAll()))
             && (!$this->keyExists($index + 1, $this->getAll()))) {
 
@@ -281,6 +363,7 @@ class ArrayList extends AbstractArrayable
             $this->arrayable[$index] = $element;
             $this->arrayable[$index + 1] = $aux;
 
+            unset($aux);
         } elseif (!$this->keyExists($index, $this->getAll())) {
             $this->arrayable[$index] = $element;
         }

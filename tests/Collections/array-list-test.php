@@ -24,6 +24,10 @@ $list->addIn(2, 'world');
 $list->addIn(5, 4365676);
 $list->addIn(0, 'sgrds');
 $list->addIn(7, '23dfg');
+$list->add([
+    'sdsfg' => 'gerb',
+    'wdfir' => 2443
+]);
 
 echo "<pre>";
 print_r($list->getAll());
@@ -43,7 +47,6 @@ echo "<br>";
 
 $list2 = new ArrayList();
 $list2->add('blue');
-$list2->add('blue', true);
 $list2->add(235354);
 
 echo "<pre>";
@@ -51,7 +54,10 @@ print_r($list2->getAll());
 echo "</pre>";
 
 $list2->merge($list);
-$list2->set(0, 1455);
+$list2->set(7, 'blue');
+$list2->addIn(8, '23df346456g');
+$list2->addIn(2, '2sdfs3dfg');
+$list2->add('blue', true);
 
 echo "<br>";
 echo "<br>";
@@ -62,3 +68,35 @@ echo "</pre>";
 
 //vDump($list2->contains('23dfg'));
 //vDump($list2->indexOf(235354));
+
+echo "<br>";
+echo "<br>";
+
+//vDump($list2->lastIndexOf('blue'));
+$list2->remove(13);
+
+echo "<pre>";
+print_r($list2->getAll());
+echo "</pre>";
+
+echo "<br>";
+echo "<br>";
+
+$list2->removeByElement('blue', true, true);
+
+echo "<pre>";
+print_r($list2->getAll());
+echo "</pre>";
+
+echo "<br>";
+echo "<br>";
+
+$list2->removeRange(5, 10);
+
+echo "<pre>";
+print_r($list2->getAll());
+echo "</pre>";
+
+echo "<br>";
+echo "<br>";
+

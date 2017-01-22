@@ -215,7 +215,7 @@ class ArrayListTest extends TestCase
      * @depends testAddElementsInList
      * @expectedSuccess
      */
-    public function testGetFirstOcurrencyOfElement(ArrayList $list)
+    public function testGetFirstOccurrenceOfElement(ArrayList $list)
     {
         $this->assertEquals(6,$list->indexOf('blue'));
         $this->assertEquals(2,$list->indexOf('helloooo'));
@@ -224,6 +224,157 @@ class ArrayListTest extends TestCase
 
         // Failure
         $this->assertEquals(-1,$list->indexOf('sdkvsoijo'));
+    }
+
+    /**
+     * @test
+     * @depends testMergeAnotherCollectionListInCurrentList
+     * @expectedSuccess
+    */
+    public function testGetLastOccurrenceOfElement(ArrayList $list)
+    {
+        $list->addIn(3, 'helloooo', true);
+
+        $this->assertEquals(7, $list->lastIndexOf('blue'));
+        $this->assertEquals(3, $list->lastIndexOf('helloooo'));
+        $this->assertEquals(8, $list->lastIndexOf(235354));
+
+        // Failure
+        $this->assertEquals(-1, $list->lastIndexOf(1233));
+
+        return $list;
+    }
+
+    /**
+     * @test
+     * @depends testGetLastOccurrenceOfElement
+     * @expectedSuccess
+     */
+    public function testRemoveElementByIndex(ArrayList $list)
+    {
+        $this->assertTrue($list->remove(7));
+        $this->assertTrue($list->remove(3));
+
+        $this->assertCount(7, $list->getAll());
+
+        $this->assertEquals(235354, $list->get(6));
+        $this->assertEquals('helloooo', $list->get(2));
+
+        $this->assertArrayHasKey(0, $list->getAll());
+        $this->assertArrayHasKey(1, $list->getAll());
+        $this->assertArrayHasKey(2, $list->getAll());
+        $this->assertArrayHasKey(3, $list->getAll());
+        $this->assertArrayHasKey(4, $list->getAll());
+        $this->assertArrayHasKey(5, $list->getAll());
+        $this->assertArrayHasKey(6, $list->getAll());
+
+        return $list;
+    }
+
+    /**
+     * @test
+     * @depends testRemoveElementByIndex
+     * @expectedException \RuntimeException
+     */
+    public function testExceptionByRemoveElementNotExisting(ArrayList $list)
+    {
+        $list->remove(9);
+    }
+
+    /**
+     * @test
+     * @depends testRemoveElementByIndex
+     * @expectedSuccess
+     */
+    public function testRemoveFirstOccurrenceByElement(ArrayList $list)
+    {
+        $this->assertTrue($list->removeByElement(235354));
+        $this->assertFalse($list->contains(235354));
+    }
+
+    /**
+     * @test
+     * @expectedSuccess
+     */
+    public function testRemoveLastOccurrenceByElement()
+    {
+        $list = new ArrayList();
+        $list->add(12);
+        $list->add(12, true);
+
+        $this->assertCount(2, $list->getAll());
+
+        $this->assertTrue($list->removeByElement(12, false, true));
+        $this->assertEquals(12, $list->get(0));
+        $this->assertTrue($list->contains(12));
+
+        $this->assertCount(1, $list->getAll());
+
+        // Failure
+        $this->assertFalse($list->removeByElement(12433));
+
+    }
+
+    /**
+     * @test
+     * @expectedSuccess
+     */
+    public function testRemoveFirstAndLastOccurrenceByElement()
+    {
+        $list = new ArrayList();
+        $list->add(12);
+        $list->add(12, true);
+        $list->add('www');
+
+        $this->assertCount(3, $list->getAll());
+
+        $this->assertTrue($list->removeByElement(12, true, true));
+        $this->assertEquals('www', $list->get(0));
+
+        $this->assertCount(1, $list->getAll());
+
+        // Failure
+        $this->assertFalse($list->removeByElement(12));
+        $this->assertFalse($list->contains(12));
+
+    }
+
+    /**
+     * @test
+     * @expectedSuccess
+     */
+    public function testRemoveRangeElement()
+    {
+        $list = new ArrayList();
+        $list->add(12);
+        $list->add(12, true);
+        $list->add('www');
+        $list->add('2453466356');
+        $list->add(346575);
+        $list->add('dd');
+
+        $this->assertTrue($list->removeRange(1, 4));
+        $this->assertCount(2, $list->getAll());
+        $this->assertEquals('12', $list->get(0));
+        $this->assertEquals('dd', $list->get(1));
+
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function testExceptionByRemoveRangeEqualsIndex()
+    {
+        $list = new ArrayList();
+        $list->add(12);
+        $list->add(12, true);
+        $list->add('www');
+        $list->add('2453466356');
+        $list->add(346575);
+        $list->add('dd');
+
+        $list->removeRange(1, 1);
     }
 
     //

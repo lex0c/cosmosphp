@@ -1,9 +1,6 @@
 <?php
 namespace Cosmos\Collections;
 
-use \IteratorAggregate;
-use \Cosmos\Collections\Interfaces\CollectionInterface;
-
 /**
  * Abstract Arrayable
  * @link https://github.com/lleocastro/cosmosphp/
@@ -11,7 +8,7 @@ use \Cosmos\Collections\Interfaces\CollectionInterface;
  * @author Léo Castro <leonardo_carvalho@outlook.com>
  * @package Cosmos\Collections
  */
-abstract class AbstractArrayable implements IteratorAggregate, CollectionInterface
+abstract class AbstractArrayable
 {
     /**
      * Manipulable array by yours daughters.
@@ -35,7 +32,7 @@ abstract class AbstractArrayable implements IteratorAggregate, CollectionInterfa
      */
     public function isEmpty():bool
     {
-        return empty($this->arrayable);
+        return empty($this->getAll());
     }
 
     /**
@@ -43,14 +40,19 @@ abstract class AbstractArrayable implements IteratorAggregate, CollectionInterfa
      *
      * @return AbstractArrayable
      */
-    public function clone():AbstractArrayable
+    public function cloneThis():AbstractArrayable
     {
         return clone($this);
     }
 
+    /**
+     * Returns all keys of collection;
+     *
+     * @return array
+     */
     public function keys():array
     {
-        return array_keys($this->arrayable);
+        return array_keys($this->getAll());
     }
 
     /**
@@ -73,9 +75,20 @@ abstract class AbstractArrayable implements IteratorAggregate, CollectionInterfa
         return ((count($this->arrayable)) > 0) ? count($this->arrayable) : -1;
     }
 
-    public function getAll():array
+    /**
+     * Returns all elements in this list.
+     *
+     * @param bool $filter
+     *
+     * @return array
+     */
+    public function getAll(bool $filter = false):array
     {
-        return array_filter($this->arrayable);
+        if ($filter) {
+            return array_filter($this->arrayable);
+        }
+
+        return $this->arrayable;
     }
 
 }
