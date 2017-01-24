@@ -9,9 +9,11 @@ Mauris aliquet placerat facilisis. Nullam id augue sapien. Duis consequat tristi
 #### List of currently available components
 > Click the specific component to see the complete documentation
 
+- [Cache]()
 - [Container]() 
 - [Collections]()
 - [Filesystem]()
+- [Security]()
 - [Logger]()
 - [Debug]()
 - [Utils]()
