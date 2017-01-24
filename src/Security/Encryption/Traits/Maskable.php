@@ -1,14 +1,14 @@
 <?php
-namespace Cosmos\Security\Traits;
+namespace Cosmos\Security\Encryption\Traits;
 
 /**
- * Mask
+ * Maskable
  * @link https://github.com/lleocastro/cosmosphp/
  * @license https://github.com/lleocastro/cosmosphp/blob/master/LICENSE
  * @author Léo Castro <leonardo_carvalho@outlook.com>
  * @package \Cosmos\Security\Traits
  */
-trait Mask
+trait Maskable
 {
     /**
      * Hard hash encrypting.
