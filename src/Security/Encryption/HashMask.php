@@ -2,13 +2,13 @@
 namespace Cosmos\Security\Encryption;
 
 /**
- * Disguise
+ * Hash Mask
  * @link https://github.com/lleocastro/cosmosphp/
  * @license https://github.com/lleocastro/cosmosphp/blob/master/LICENSE
  * @author Léo Castro <leonardo_carvalho@outlook.com>
  * @package \Cosmos\Security\Encryption
  */
-class Disguise
+class HashMask
 {
     /**
      * Logic from Encryption.
@@ -18,32 +18,24 @@ class Disguise
      *
      * @return string
      */
-    final public function obscure(string $data):string
+    public function disguise(string $data):string
     {
-        if(empty($data)):
-            throw new \InvalidArgumentException('Arguments not valid!');
-        endif;
-
-        $encryptedData = base64_encode(htmlentities($data));
+        $encryptedData = base64_encode($data);
         return base64_encode(strrev(substr($encryptedData, (strlen($encryptedData)/2)-strlen($encryptedData)
                 ,strlen($encryptedData)).substr($encryptedData, 0, (strlen($encryptedData)/2)-strlen($encryptedData))));
     }
 
     /**
      * Logic from Decryption
-     * Reverse process of 'obscure()' to recover the original value.
+     * Reverse process of 'disguise()' to recover the original value.
      *
      * @param string $encryptedData
      *
      * @return string
      */
-    final public function illumin(string $encryptedData):string
+    public function retrieve(string $encryptedData):string
     {
-        if(empty($encryptedData)):
-            throw new \InvalidArgumentException('Arguments not valid!');
-        endif;
-
-        $encryptedData = base64_decode(htmlentities($encryptedData));
+        $encryptedData = base64_decode($encryptedData);
         $encryptedData = strrev(
             substr($encryptedData, (strlen($encryptedData)/2)-strlen($encryptedData),strlen($encryptedData))
             .substr($encryptedData, 0, (strlen($encryptedData)/2)-strlen($encryptedData)));
