@@ -64,3 +64,45 @@ if (!function_exists('slug')) {
     }
 }
 
+if (!function_exists('hashCrypt')) {
+    /**
+     * Generates a encrypted string, or compare a existing hash.
+     *
+     * @param string $value
+     * @param string $hash
+     *
+     * @return string/bool
+     */
+    function hashCrypt(string $value, string $hash = '')
+    {
+        $encrypt = cosmos('\Cosmos\Security\Encryption\Hash');
+
+        if ($hash == '') {
+            return $encrypt->generate($value);
+        }
+
+        return $encrypt->isEquals($value, $hash);
+    }
+}
+
+if (!function_exists('hashMask')) {
+    /**
+     * Disguises a text in base64 and with some string manipulations.
+     *
+     * @param string $value
+     * @param bool   $decrypt
+     *
+     * @return string
+     */
+    function hashMask(string $value, bool $decrypt = false):string
+    {
+        $mask = cosmos('\Cosmos\Security\Encryption\HashMask');
+
+        if (!$decrypt) {
+            return $mask->disguise($value);
+        }
+
+        return $mask->retrieve($value);
+    }
+}
+
