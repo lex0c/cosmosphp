@@ -4,6 +4,7 @@ namespace Cosmos\Collections;
 use \Iterator;
 use \IteratorAggregate;
 use \Cosmos\Collections\Traits\Comparable;
+use \Cosmos\Collections\Interfaces\ListInterface;
 use \Cosmos\Collections\Interfaces\CollectionInterface;
 use \Cosmos\Collections\Exceptions\IndexBoundsException;
 use \Cosmos\Collections\Exceptions\NullPointerException;
@@ -16,7 +17,7 @@ use \Cosmos\Collections\Exceptions\InvalidElementTypeException;
  * @author Léo Castro <leonardo_carvalho@outlook.com>
  * @package Cosmos\Collections
  */
-class ArrayList extends AbstractArrayable implements IteratorAggregate, CollectionInterface
+class ArrayList extends AbstractArrayable implements IteratorAggregate, ListInterface
 {
     use Comparable;
 
