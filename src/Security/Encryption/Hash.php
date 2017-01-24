@@ -1,7 +1,7 @@
 <?php
 namespace Cosmos\Security\Encryption;
 
-use \Cosmos\Security\Traits\Mask;
+use \Cosmos\Security\Encryption\Traits\Maskable;
 
 /**
  * Hash Generator
@@ -12,7 +12,7 @@ use \Cosmos\Security\Traits\Mask;
  */
 class Hash
 {
-    use Mask;
+    use Maskable;
 
     /**
      * Encryption prefix
@@ -122,14 +122,7 @@ class Hash
      */
     public function setPrefix(string $prefix):Hash
     {
-        $prefix = trim($prefix);
-
-        if ($prefix !== '') {
-            $this->prefix = $prefix;
-        } else {
-            $this->prefix = '2a';
-        }
-
+        $this->prefix = trim($prefix);
         return $this;
     }
 
