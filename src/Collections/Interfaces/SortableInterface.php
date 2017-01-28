@@ -13,10 +13,10 @@ interface SortableInterface
 	/**
 	 * Method for integration with implementation.
 	 * 
-     * @param array $data
+     * @param ListInterface $data
      *
-     * @return array
+     * @return ListInterface
 	 */
-	public function sort(array $data):array;
+	public function sort(ListInterface $data):ListInterface;
 
 }
