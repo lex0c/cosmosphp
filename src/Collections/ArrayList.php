@@ -251,7 +251,7 @@ class ArrayList extends AbstractArrayable implements IteratorAggregate, ListInte
             unset($arr);
 
             // Temporary solution to remove empty indexes after removal of elements ..
-            $this->arrayable = array_filter($this->arrayable);
+            $this->arrayable = array_values($this->arrayable);
 
             return true;
         } elseif (($this->keyExists($index, $this->getAll()))
